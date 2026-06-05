@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="星星的世界：給國中到高中學生使用的互動式恆星、星座與觀星學習網站。">
+  <title>星星的世界 | The World of Stars</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <canvas id="space-canvas" aria-hidden="true"></canvas>
+  <div class="meteor-layer" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="回到星星的世界首頁">
+      <span class="brand-mark">SW</span>
+      <span>
+        <strong>星星的世界</strong>
+        <small>The World of Stars</small>
+      </span>
+    </a>
+    <nav class="nav-links" aria-label="主要單元">
+      <button data-jump="#lifecycle"><i data-lucide="orbit"></i><span>生命週期</span></button>
+      <button data-jump="#color-lab"><i data-lucide="thermometer-sun"></i><span>顏色溫度</span></button>
+      <button data-jump="#constellation"><i data-lucide="sparkles"></i><span>星座</span></button>
+      <button data-jump="#sky-explorer"><i data-lucide="telescope"></i><span>星空探索</span></button>
+      <button data-jump="#quiz"><i data-lucide="badge-check"></i><span>測驗</span></button>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero-section">
+      <div class="hero-copy">
+        <p class="eyebrow">互動自然科教材</p>
+        <h1>星星的世界</h1>
+        <p class="hero-subtitle">
+          從一顆恆星的誕生，到夜空中星座、星等、北極星與八大行星，
+          用模擬、拖曳遊戲與可操作星圖，把抽象的天文概念變成看得見的探索。
+        </p>
+        <div class="hero-actions">
+          <button class="primary-action" data-jump="#lifecycle">
+            <i data-lucide="rocket"></i>
+            開始探索
+          </button>
+          <button class="secondary-action" data-jump="#planet-game">
+            <i data-lucide="circle-dot"></i>
+            行星分類挑戰
+          </button>
+        </div>
+      </div>
+      <div class="hero-visual" aria-label="太陽系與銀河系位置示意">
+        <div class="milky-way">
+          <span class="galaxy-core"></span>
+          <span class="solar-pin">太陽系</span>
+        </div>
+        <div class="orbit-mini">
+          <span class="mini-sun"></span>
+          <span class="mini-earth"></span>
+          <span class="mini-jupiter"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="concept-grid" aria-label="核心概念">
+      <article class="concept-card">
+        <i data-lucide="sun"></i>
+        <h2>什麼是恆星？</h2>
+        <p>恆星是能自己發光、發熱的天體。太陽也是一顆恆星，只是它離地球最近，所以看起來特別大又明亮。</p>
+      </article>
+      <article class="concept-card">
+        <i data-lucide="circle"></i>
+        <h2>恆星與行星</h2>
+        <p>行星不會自己發光，主要反射恆星的光，並繞著恆星運行。水星、金星、地球到海王星都是太陽系行星。</p>
+      </article>
+      <article class="concept-card">
+        <i data-lucide="gauge"></i>
+        <h2>星等與亮度</h2>
+        <p>星等數字越小，代表看起來越亮；比一等星更亮的星，甚至可以是零等星或負等星。</p>
+      </article>
+      <article class="concept-card">
+        <i data-lucide="map"></i>
+        <h2>觀星位置</h2>
+        <p>在臺灣觀星時，可用指北針、星座盤與高度角判斷星星位置；北極星接近正北方，是辨認方位的重要線索。</p>
+      </article>
+    </section>
+
+    <section class="module wide" id="lifecycle">
+      <div class="module-header">
+        <p class="eyebrow">模組 1</p>
+        <h2>恆星生命週期模擬器</h2>
+        <p>調整恆星初始質量，觀察它會成為穩定主序星、白矮星，或以超新星爆發結束生命。</p>
+      </div>
+      <div class="tool-layout">
+        <div class="control-panel">
+          <label for="massSlider">恆星質量：<strong id="massValue">1.0</strong> 個太陽質量</label>
+          <input id="massSlider" type="range" min="0.2" max="40" step="0.1" value="1">
+          <div class="range-caption">
+            <span>紅矮星</span><span>類太陽</span><span>大質量恆星</span>
+          </div>
+          <div class="result-strip">
+            <span>壽命估計</span>
+            <strong id="lifeSpan">約 100 億年</strong>
+          </div>
+          <div class="result-strip">
+            <span>最終命運</span>
+            <strong id="lifeResult">白矮星</strong>
+          </div>
+        </div>
+        <div class="star-evolution" aria-live="polite">
+          <div class="stage-star" id="stageStar">
+            <span></span>
+          </div>
+          <ol class="timeline" id="timeline"></ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="module" id="color-lab">
+      <div class="module-header">
+        <p class="eyebrow">模組 2</p>
+        <h2>恆星顏色與溫度互動實驗</h2>
+        <p>拖曳溫度滑桿，看看恆星從紅色、橙色、白色到藍白色的變化。</p>
+      </div>
+      <div class="color-lab-grid">
+        <div class="temperature-star" id="temperatureStar" aria-label="會隨溫度改變顏色的恆星"></div>
+        <div class="control-panel">
+          <label for="tempSlider">表面溫度：<strong id="kelvinValue">5,800 K</strong></label>
+          <input id="tempSlider" type="range" min="2500" max="30000" step="100" value="5800">
+          <p class="metric-line">約 <strong id="celsiusValue">5,527 °C</strong>，光譜類型 <strong id="spectralType">G 型</strong></p>
+          <div class="spectrum-bar">
+            <span>M</span><span>K</span><span>G</span><span>F</span><span>A</span><span>B</span><span>O</span>
+          </div>
+          <p class="hint-box" id="temperatureHint">像太陽這樣的 G 型恆星看起來偏白黃，表面溫度約 5,800 K。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="module" id="comparison">
+      <div class="module-header">
+        <p class="eyebrow">模組 3</p>
+        <h2>太陽與其他恆星比較工具</h2>
+        <p>選擇一顆恆星，比較它和太陽在大小、亮度與表面溫度上的差異。</p>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-visual">
+          <div class="sun-disc">太陽</div>
+          <div class="selected-disc" id="selectedDisc">天狼星 A</div>
+        </div>
+        <div class="control-panel">
+          <label for="starSelect">選擇恆星</label>
+          <select id="starSelect" aria-label="選擇要比較的恆星"></select>
+          <dl class="star-facts" id="starFacts"></dl>
+          <div class="bar-set" id="compareBars"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="module wide" id="constellation">
+      <div class="module-header">
+        <p class="eyebrow">模組 4</p>
+        <h2>星座拼圖與四季星空</h2>
+        <p>拖曳星星到半透明目標點，連出星座骨架；再挑戰四季、方位與代表星座配對。</p>
+      </div>
+      <div class="constellation-layout">
+        <div class="puzzle-panel">
+          <div class="puzzle-toolbar">
+            <strong id="puzzleName">獵戶座</strong>
+            <button id="nextConstellation" class="icon-button" aria-label="切換下一個星座">
+              <i data-lucide="shuffle"></i>
+            </button>
+          </div>
+          <svg id="constellationPuzzle" viewBox="0 0 100 70" role="img" aria-label="拖曳星座拼圖"></svg>
+          <p class="hint-box" id="puzzleHint">把亮星拖到淡色目標點附近，成功後會出現星座故事。</p>
+        </div>
+        <div class="season-panel">
+          <h3>四季與方位配對</h3>
+          <p>先選季節，再選它常見的星空圖案。</p>
+          <div class="season-buttons" id="seasonButtons"></div>
+          <div class="pattern-buttons" id="patternButtons"></div>
+          <p class="feedback-line" id="seasonFeedback">完成配對可累積星座觀察分數。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="module wide" id="planet-game">
+      <div class="module-header">
+        <p class="eyebrow">加碼遊戲</p>
+        <h2>八大行星分類互動遊戲</h2>
+        <p>點擊行星看解說與動畫，把行星拖曳到「岩石行星、氣體巨行星、冰巨行星」中。</p>
+      </div>
+      <div class="planet-layout">
+        <div class="orbit-board" id="orbitBoard" aria-label="可點擊的太陽系行星動畫"></div>
+        <div class="planet-game">
+          <div class="planet-tokens" id="planetTokens" aria-label="可拖曳行星"></div>
+          <div class="planet-bins" id="planetBins"></div>
+        </div>
+        <aside class="planet-info" id="planetInfo" aria-live="polite">
+          <strong>點擊一顆行星</strong>
+          <p>看它的特色、分類與小動畫，再把它放到正確類別。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module wide" id="sky-explorer">
+      <div class="module-header">
+        <p class="eyebrow">模組 5</p>
+        <h2>星空探索模式</h2>
+        <p>拖曳星空平移、滾輪或按鈕縮放，點擊星星查看星名、星等、距離與觀星提示。</p>
+      </div>
+      <div class="sky-toolbar">
+        <button id="zoomIn"><i data-lucide="zoom-in"></i>放大</button>
+        <button id="zoomOut"><i data-lucide="zoom-out"></i>縮小</button>
+        <button id="resetSky"><i data-lucide="locate-fixed"></i>重置</button>
+        <span>星等數字越小，畫面中的星星越亮。</span>
+      </div>
+      <div class="sky-layout">
+        <canvas id="skyCanvas" width="1100" height="620" aria-label="可拖曳縮放的夜空"></canvas>
+        <aside class="sky-card" id="skyInfo">
+          <strong>點擊星星查看資訊</strong>
+          <p>提示：北極星接近正北方，位置幾乎不會隨時間改變。</p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="module wide" id="planisphere">
+      <div class="module-header">
+        <p class="eyebrow">星盤工坊</p>
+        <h2>可移動星盤與觀星練習</h2>
+        <p>調整月份、時間與方位，觀察星座在同一夜晚會由東往西移動；也可以拖曳星點自製星圖。</p>
+      </div>
+      <div class="planisphere-controls">
+        <label>月份
+          <select id="monthSelect">
+            <option value="spring">4 月：春季星空</option>
+            <option value="summer">7 月：夏季星空</option>
+            <option value="autumn">10 月：秋季星空</option>
+            <option value="winter">1 月：冬季星空</option>
+          </select>
+        </label>
+        <label>時間
+          <input id="timeSlider" type="range" min="19" max="25" step="1" value="21">
+          <strong id="timeValue">21:00</strong>
+        </label>
+        <label>面向方位
+          <select id="directionSelect">
+            <option value="north">北方</option>
+            <option value="east">東方</option>
+            <option value="south">南方</option>
+            <option value="west">西方</option>
+          </select>
+        </label>
+        <button id="resetPlanisphere"><i data-lucide="rotate-ccw"></i>重置星點</button>
+      </div>
+      <canvas id="planisphereCanvas" width="1000" height="560" aria-label="可移動星星位置的星座盤"></canvas>
+      <p class="feedback-line" id="planisphereHint">拖曳任一顆星可以改變星圖；時間越晚，星空會呈現由東往西的規律移動。</p>
+    </section>
+
+    <section class="module wide" id="quiz">
+      <div class="module-header">
+        <p class="eyebrow">模組 6</p>
+        <h2>學習測驗與成就徽章</h2>
+        <p>完成即時回饋測驗，檢查你是否能分辨恆星、行星、星等、星座與觀星方法。</p>
+      </div>
+      <div class="quiz-layout">
+        <div class="quiz-box">
+          <div class="quiz-topline">
+            <span id="questionCounter">第 1 題</span>
+            <strong id="scoreText">分數 0 / 0</strong>
+          </div>
+          <h3 id="quizQuestion">題目載入中</h3>
+          <div class="quiz-options" id="quizOptions"></div>
+          <p class="feedback-line" id="quizFeedback">選擇答案後會立即顯示解析。</p>
+          <button id="nextQuestion" class="primary-action" disabled>
+            <i data-lucide="arrow-right"></i>
+            下一題
+          </button>
+        </div>
+        <div class="badge-board" id="badgeBoard">
+          <h3>成就徽章</h3>
+          <p>答對越多題，徽章會逐步點亮。</p>
+          <div class="badges">
+            <span data-badge="3">星光入門</span>
+            <span data-badge="5">星座偵探</span>
+            <span data-badge="7">恆星研究員</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>星星的世界 | 適合國中至高中自然科課堂、探究活動與自學使用。</p>
+    <p>觀星安全提醒：夜間戶外觀察請結伴、注意天氣與保暖，並盡量避開光害。</p>
+  </footer>
+</body>
+</html>
